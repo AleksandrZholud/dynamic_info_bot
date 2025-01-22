@@ -1,40 +1,62 @@
 package dynamic.chat.bot.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import dynamic.chat.bot.model.Button;
+import dynamic.chat.bot.model.Message;
+import dynamic.chat.bot.model.User;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 
 import java.util.List;
 
+@Slf4j
 public class MongoDBSetup {
+    @SneakyThrows
     public static void main(String[] args) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
         try (MongoClient client = MongoClients.create("mongodb://localhost:27017")) {
             MongoDatabase db = client.getDatabase("telegram_bot");
+
             MongoCollection<Document> messages = db.getCollection("messages");
 
-            Document testMessage = new Document("_id", "message1")
-                    .append("type", "text")
-                    .append("text", "Hello, this is a test message!")
-                    .append("buttons", List.of(
-                            new Document("buttonText", "goto_24").append("id", "24"),
-                            new Document("buttonText", "Button 2").append("action", "message2")
-                    ))
-                    .append("autoDelete", true);
+            Message message = getMessageDto();
 
-            messages.insertOne(testMessage);
-            System.out.println("Test message inserted!");
+            Document messageDoc = Document.parse(objectMapper.writeValueAsString(message));
+            messages.insertOne(messageDoc);
+            log.info("Test message inserted!");
 
             MongoCollection<Document> users = db.getCollection("users");
 
-            Document testUser = new Document("_id", "user1")
-                    .append("chatId", "123456789")
-                    .append("historyIds", List.of("message1"))
-                    .append("isSuperUser", false);
+            User user = getUser();
 
-            users.insertOne(testUser);
-            System.out.println("Test user inserted!");
+            Document userDoc = Document.parse(objectMapper.writeValueAsString(user));
+            users.insertOne(userDoc);
+            log.info("Test user inserted!");
         }
+    }
+
+    // Added "Valerii" user to mongoDB
+    private static User getUser() {
+        return User.builder()
+                .chatId("313744444")
+                .historyIds(List.of("message1"))
+                .isSuperUser(false)
+                .build();
+    }
+
+    private static Message getMessageDto() {
+        return Message.builder()
+                .type("text")
+                .text("Hello, this is a test message!")
+                .buttons(List.of(new Button("goto_24", "24"),
+                        new Button("Button 2", "message2")))
+                .autoDelete(false)
+                .build();
     }
 }
