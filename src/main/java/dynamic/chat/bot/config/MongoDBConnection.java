@@ -12,7 +12,7 @@ public class MongoDBConnection {
 
     public static void main(String[] args) {
         try (MongoClient mongoClient = MongoClients.create(CONNECTION_STRING)) {
-            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME); //for what?
             System.out.println("Connection succeed!");
         } catch (Exception e) {
             log.error("Error connection: {}", e.getMessage());

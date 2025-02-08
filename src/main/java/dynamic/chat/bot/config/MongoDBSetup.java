@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class MongoDBSetup {
     @SneakyThrows
-    public static void main(String[] args) {
+    public static void main(String[] args) { //do we need this?
         ObjectMapper objectMapper = new ObjectMapper();
 
         try (MongoClient client = MongoClients.create("mongodb://localhost:27017")) {
@@ -42,7 +42,7 @@ public class MongoDBSetup {
     }
 
     // Added "Valerii" user to mongoDB
-    private static User getUser() {
+    private static User getUser() { //do we need this?
         return User.builder()
                 .chatId("313744444")
                 .historyIds(List.of("message1"))
@@ -50,7 +50,7 @@ public class MongoDBSetup {
                 .build();
     }
 
-    private static Message getMessageDto() {
+    private static Message getMessageDto() { //do we need this?
         return Message.builder()
                 .type("text")
                 .text("Hello, this is a test message!")

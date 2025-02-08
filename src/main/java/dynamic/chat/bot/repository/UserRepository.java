@@ -3,16 +3,15 @@ package dynamic.chat.bot.repository;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import dynamic.chat.bot.exception.UserNotFoundException;
+import dynamic.chat.bot.model.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
-import dynamic.chat.bot.model.User;
 
 @Slf4j
+@RequiredArgsConstructor
 public class UserRepository {
     private final MongoDatabase database;
-    public UserRepository (MongoDatabase database) {
-        this.database = database;
-    }
 
    public User findByChatId(String chatId) {
 

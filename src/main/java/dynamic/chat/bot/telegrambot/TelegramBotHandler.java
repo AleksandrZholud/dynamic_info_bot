@@ -5,20 +5,18 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.UpdatesListener;
-import dynamic.chat.bot.exception.UserNotFoundException;
 import dynamic.chat.bot.model.User;
 import dynamic.chat.bot.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -67,8 +65,8 @@ public class TelegramBotHandler {
                 sendMessage(chatId, "No previous message found.");
             }
         } else if ("option_2".equals(callbackData)) {
-                User user = userRepository.findByChatId(chatId);
-                sendMessage(chatId, "Hello user with chat id " + chatId + "!");
+            User user = userRepository.findByChatId(chatId);
+            sendMessage(chatId, "Hello user with chat id " + chatId + "!");
         }
     }
 
